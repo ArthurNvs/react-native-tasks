@@ -27,6 +27,7 @@ export default class TaskList extends Component {
                 </LinearGradient>
                 <View style={styles.taskList}>
                 <Task desc='Aprender React' estimate={new Date()} done={new Date()} />
+                <Task desc='Aprender React' estimate={new Date()} done={null} />
                 </View>
             </View>
         )
@@ -48,19 +49,21 @@ const styles = StyleSheet.create({
     
     titleBar: {
         flex: 1,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        marginRight: 30
     },
     
     title: {
         color: commonStyles.colors.secondary,
-        fontSize: 50,
+        fontSize: 65,
         marginLeft: 20,
-        marginBottom: 20
+        marginBottom: 10
     },
     
     subtitle: {
         color: commonStyles.colors.secondary,
-        fontSize: 20,
+        fontSize: 25,
         marginLeft: 20,
         marginBottom: 20
     }
