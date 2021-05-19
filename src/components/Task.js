@@ -13,7 +13,7 @@ export default props => {
     const isDoneStyle = props.done != null ? { textDecorationLine: 'line-through'} : {}
 
     const date = props.done ? props.done : props.estimate
-    const dateFormat = moment(date).locale('pt-br').format('dd[ feira, ] D [de] MMMM [de] YYYY')
+    const dateFormat = moment(date).locale('pt-br').format('dddd[,] D [de] MMMM [de] YYYY')
 
     return (
         <View style={styles.container}>

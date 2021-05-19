@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, ImageBackground, StyleSheet, View } from 'react-native'
+import { Text, ImageBackground, StyleSheet, View, FlatList } from 'react-native'
 
 //import todayImage from '../../assets/imgs/today.jpg'
 import commonStyles from '../commonStyles'
@@ -11,12 +11,28 @@ import LinearGradient from 'react-native-linear-gradient'
 
 
 export default class TaskList extends Component {
+
+    state = {
+        tasks: [{
+            id: Math.random(),
+            desc: 'Comprar Livro React',
+            estimate: new Date(),
+            done: new Date(),
+        },
+        {
+            id: Math.random(),
+            desc: 'Fazer joguinho novo',
+            estimate: new Date(),
+            done: null,
+        }]
+    }
+
     render() {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return (
             <View style={styles.container}>
                 <LinearGradient 
-                    colors={['#0099ff', '#00ccff', '#00ccff']}
+                    colors={[commonStyles.colors.primary, '#00ccff', commonStyles.colors.primary]}
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 0 }}
                     style={styles.background}>
@@ -26,8 +42,10 @@ export default class TaskList extends Component {
                     </View>
                 </LinearGradient>
                 <View style={styles.taskList}>
-                <Task desc='Aprender React' estimate={new Date()} done={new Date()} />
-                <Task desc='Aprender React' estimate={new Date()} done={null} />
+                <FlatList 
+                    data={this.state.tasks}
+                    keyExtractor={item => `${item.id}`}
+                    renderItem={({ item }) => <Task {...item} />} />
                 </View>
             </View>
         )
