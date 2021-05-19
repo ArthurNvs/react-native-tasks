@@ -3,11 +3,17 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+import moment from 'moment'
+import 'moment/locale/pt-br'
+
 import commonStyles from '../commonStyles'
 
 export default props => {
 
     const isDoneStyle = props.done != null ? { textDecorationLine: 'line-through'} : {}
+
+    const date = props.done ? props.done : props.estimate
+    const dateFormat = moment(date).locale('pt-br').format('dd[ feira, ] D [de] MMMM [de] YYYY')
 
     return (
         <View style={styles.container}>
@@ -16,7 +22,7 @@ export default props => {
             </View>
             <View>
                 <Text style={[isDoneStyle, styles.desc]}>{props.desc}</Text>
-                <Text style={styles.date}>{props.estimate + ''}</Text>
+                <Text style={styles.date}>{dateFormat}</Text>
             </View>
         </View>
     )
