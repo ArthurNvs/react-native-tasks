@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
-import { Text, ImageBackground, StyleSheet, View, FlatList } from 'react-native'
+import { 
+    Text, 
+    ImageBackground, 
+    StyleSheet, 
+    View, 
+    FlatList, 
+    TouchableOpacity,
+    Platform, 
+    Button } from 'react-native'
 
 //import todayImage from '../../assets/imgs/today.jpg'
 import commonStyles from '../commonStyles'
+
+import Icon from 'react-native-vector-icons/FontAwesome5'
+
 import moment from 'moment'
 import 'moment/locale/pt-br'
 
@@ -13,6 +24,9 @@ import LinearGradient from 'react-native-linear-gradient'
 export default class TaskList extends Component {
 
     state = {
+        showDoneTasks: true,
+        visibleTasks: [],
+        
         tasks: [{
             id: Math.random(),
             desc: 'Comprar Livro React',
@@ -27,8 +41,39 @@ export default class TaskList extends Component {
         }]
     }
 
+    componentDidMount = () => {
+        this.filterTasks()
+    }
+
+    toggleFilter = () => {
+        this.setState({ showDoneTasks: !this.state.showDoneTasks }, this.filterTasks)
+    }
+
+    filterTasks = () =>  {
+        let visibleTasks = null
+        if(this.state.showDoneTasks) {
+            visibleTasks = [...this.state.tasks]
+        } else {
+            const pending = task => task.done === null
+            visibleTasks = this.state.tasks.filter(pending)
+        }
+
+        this.setState({ visibleTasks: visibleTasks })
+    }
+
+    toggleTask = taskId => {
+        const tasks = [...this.state.tasks]
+        tasks.forEach(task => {
+            if(task.id === taskId) {
+                task.done = task.done ? null : new Date()
+            }
+        })
+
+        this.setState({ tasks: tasks }, this.filterTasks)
+    }
+
     render() {
-        const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
+        const today = moment().locale('pt-br').format('dddd, D [de] MMMM')
         return (
             <View style={styles.container}>
                 <LinearGradient 
@@ -36,6 +81,14 @@ export default class TaskList extends Component {
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 0 }}
                     style={styles.background}>
+                    <View style={styles.iconBar}>
+                        <TouchableOpacity onPress={this.toggleFilter}>
+                            <Icon 
+                                name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
+                                size={20} 
+                                color={commonStyles.colors.secondary} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Hoje</Text>
                         <Text style={styles.subtitle}>{today}</Text>
@@ -43,9 +96,9 @@ export default class TaskList extends Component {
                 </LinearGradient>
                 <View style={styles.taskList}>
                 <FlatList 
-                    data={this.state.tasks}
+                    data={this.state.visibleTasks}
                     keyExtractor={item => `${item.id}`}
-                    renderItem={({ item }) => <Task {...item} />} />
+                    renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} />
                 </View>
             </View>
         )
@@ -84,6 +137,13 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginLeft: 20,
         marginBottom: 20
+    },
+
+    iconBar: {
+        flexDirection: 'row',
+        marginHorizontal: 20,
+        justifyContent: 'flex-start',
+        marginTop: Platform.OS === 'ios' ? 60 : 30,
     }
 })
 

@@ -1,6 +1,6 @@
 //Stateless components are better as function components
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import moment from 'moment'
@@ -17,9 +17,12 @@ export default props => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.checkContainer}>
-                {getCheckView(props.done)}
-            </View>
+            <TouchableWithoutFeedback
+                onPress={() => props.toggleTask(props.id)}>
+                <View style={styles.checkContainer}>
+                    {getCheckView(props.done)}
+                </View>
+            </TouchableWithoutFeedback>
             <View>
                 <Text style={[isDoneStyle, styles.desc]}>{props.desc}</Text>
                 <Text style={styles.date}>{dateFormat}</Text>
