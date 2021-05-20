@@ -19,14 +19,18 @@ import 'moment/locale/pt-br'
 
 import Task from '../components/Task'
 import LinearGradient from 'react-native-linear-gradient'
+import AddTask from './AddTask'
 
 
 export default class TaskList extends Component {
 
     state = {
         showDoneTasks: true,
+
+        showTaskModal:  true,
+
         visibleTasks: [],
-        
+
         tasks: [{
             id: Math.random(),
             desc: 'Comprar Livro React',
@@ -76,30 +80,33 @@ export default class TaskList extends Component {
         const today = moment().locale('pt-br').format('dddd, D [de] MMMM')
         return (
             <View style={styles.container}>
-                <LinearGradient 
-                    colors={[commonStyles.colors.primary, '#00ccff', commonStyles.colors.primary]}
-                    start={{ x: 0, y: 1 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.background}>
-                    <View style={styles.iconBar}>
-                        <TouchableOpacity onPress={this.toggleFilter}>
-                            <Icon 
-                                name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
-                                size={20} 
-                                color={commonStyles.colors.secondary} />
-                        </TouchableOpacity>
+                <AddTask 
+                    isVisible={this.state.showTaskModal} 
+                    onCancel={() => this.setState({ showTaskModal: false} )} />
+                    <LinearGradient 
+                        colors={[commonStyles.colors.primary, '#00ccff', commonStyles.colors.primary]}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.background}>
+                        <View style={styles.iconBar}>
+                            <TouchableOpacity onPress={this.toggleFilter}>
+                                <Icon 
+                                    name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
+                                    size={20} 
+                                    color={commonStyles.colors.secondary} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.titleBar}>
+                            <Text style={styles.title}>Hoje</Text>
+                            <Text style={styles.subtitle}>{today}</Text>
+                        </View>
+                    </LinearGradient>
+                    <View style={styles.taskList}>
+                    <FlatList 
+                        data={this.state.visibleTasks}
+                        keyExtractor={item => `${item.id}`}
+                        renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} />
                     </View>
-                    <View style={styles.titleBar}>
-                        <Text style={styles.title}>Hoje</Text>
-                        <Text style={styles.subtitle}>{today}</Text>
-                    </View>
-                </LinearGradient>
-                <View style={styles.taskList}>
-                <FlatList 
-                    data={this.state.visibleTasks}
-                    keyExtractor={item => `${item.id}`}
-                    renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} />
-                </View>
             </View>
         )
     }
