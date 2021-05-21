@@ -27,7 +27,7 @@ export default class TaskList extends Component {
     state = {
         showDoneTasks: true,
 
-        showTaskModal:  true,
+        showAddTask:  true,
 
         visibleTasks: [],
 
@@ -81,10 +81,10 @@ export default class TaskList extends Component {
         return (
             <View style={styles.container}>
                 <AddTask 
-                    isVisible={this.state.showTaskModal} 
-                    onCancel={() => this.setState({ showTaskModal: false} )} />
+                    isVisible={this.state.showAddTask} 
+                    onCancel={() => this.setState({ showAddTask: false} )} />
                     <LinearGradient 
-                        colors={[commonStyles.colors.primary, '#00ccff', commonStyles.colors.primary]}
+                        colors={[commonStyles.colors.primary, commonStyles.colors.today, commonStyles.colors.primary]}
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 0 }}
                         style={styles.background}>
@@ -107,6 +107,12 @@ export default class TaskList extends Component {
                         keyExtractor={item => `${item.id}`}
                         renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} />
                     </View>
+                    <TouchableOpacity 
+                        style={styles.addButton}
+                        activeOpacity={0.5}
+                        onPress={() => this.setState({ showAddTask:  true })} >
+                        <Icon name='plus' size={20} color={commonStyles.colors.secondary} />
+                    </TouchableOpacity>
             </View>
         )
     }
@@ -151,6 +157,18 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         justifyContent: 'flex-start',
         marginTop: Platform.OS === 'ios' ? 60 : 30,
+    },
+
+    addButton: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: commonStyles.colors.today,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
