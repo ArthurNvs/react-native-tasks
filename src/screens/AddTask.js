@@ -80,7 +80,7 @@ export default class AddTask extends Component {
                         placeholder='Descreva a tarefa...'
                         onChangeText={desc => this.setState({ desc: desc })}
                         value={this.state.desc} />
-                            <View style={{margin: 10}}>{this.getDatePicker()}</View>
+                            <View style={{marginLeft: 110}}>{this.getDatePicker()}</View>
                     <View style={styles.buttons}>
                         <TouchableOpacity onPress={this.props.onCancel}>
                             <Text style={styles.button}>Cancelar</Text>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 21,
+        fontWeight: 'bold',
         backgroundColor: commonStyles.colors.today,
         color: commonStyles.colors.secondary,
         textAlign: 'center',
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
+        fontSize: 19,
         margin: 15,
         backgroundColor: '#FFF',
         borderWidth: 1,
@@ -127,9 +129,11 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     button: {
+        fontWeight: '500',
         margin: 20,
         marginRight: 30,
-        color: commonStyles.colors.today
+        fontSize: 17,
+        color: commonStyles.colors.today,
     },
     date: {
         fontSize: 20,

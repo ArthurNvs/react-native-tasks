@@ -34,13 +34,13 @@ export default class TaskList extends Component {
 
         tasks: [{
             id: Math.random(),
-            desc: 'Comprar Livro React',
+            desc: 'Concluir interface do app',
             estimate: new Date(),
             done: new Date(),
         },
         {
             id: Math.random(),
-            desc: 'Fazer joguinho novo',
+            desc: 'Fazer um novo curso de c++',
             estimate: new Date(),
             done: null,
         }]
