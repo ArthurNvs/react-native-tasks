@@ -7,12 +7,13 @@ import {
     FlatList, 
     TouchableOpacity,
     Platform, 
-    Button } from 'react-native'
+    Button,
+    Alert } from 'react-native'
 
 //import todayImage from '../../assets/imgs/today.jpg'
 import commonStyles from '../commonStyles'
 
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
@@ -76,13 +77,32 @@ export default class TaskList extends Component {
         this.setState({ tasks: tasks }, this.filterTasks)
     }
 
+    addTask = newTask => {
+        if(!newTask.desc || !newTask.desc.trim()) {
+            Alert.alert('Hmm..', 'Faltou inserir a descriçao da sua tarefa')
+            return
+        }
+
+        const tasks = [...this.state.tasks]
+        
+        tasks.push({
+            id: Math.random(),
+            desc: newTask.desc,
+            estimate: newTask.date,
+            done: null
+        })
+
+        this.setState({ tasks: tasks, showAddTask: false }, this.filterTasks)
+    }
+
     render() {
         const today = moment().locale('pt-br').format('dddd, D [de] MMMM')
         return (
             <View style={styles.container}>
                 <AddTask 
                     isVisible={this.state.showAddTask} 
-                    onCancel={() => this.setState({ showAddTask: false} )} />
+                    onCancel={() => this.setState({ showAddTask: false} )}
+                    onSave={this.addTask} />
                     <LinearGradient 
                         colors={[commonStyles.colors.primary, commonStyles.colors.today, commonStyles.colors.primary]}
                         start={{ x: 0, y: 1 }}
