@@ -9,14 +9,13 @@ import {
     Platform, 
     Button,
     Alert } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import moment from 'moment'
+import 'moment/locale/pt-br'
 
 //import todayImage from '../../assets/imgs/today.jpg'
 import commonStyles from '../commonStyles'
-
-import Icon from 'react-native-vector-icons/FontAwesome'
-
-import moment from 'moment'
-import 'moment/locale/pt-br'
 
 import Task from '../components/Task'
 import LinearGradient from 'react-native-linear-gradient'
@@ -32,18 +31,7 @@ export default class TaskList extends Component {
 
         visibleTasks: [],
 
-        tasks: [{
-            id: Math.random(),
-            desc: 'Concluir interface do app',
-            estimate: new Date(),
-            done: new Date(),
-        },
-        {
-            id: Math.random(),
-            desc: 'Fazer um novo curso de c++',
-            estimate: new Date(),
-            done: null,
-        }]
+        tasks: []
     }
 
     componentDidMount = () => {
