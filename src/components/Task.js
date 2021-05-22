@@ -1,6 +1,12 @@
 //Stateless components are better as function components
 import React from 'react'
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    TouchableWithoutFeedback,
+    TouchableOpacity } from 'react-native'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import moment from 'moment'
@@ -15,19 +21,29 @@ export default props => {
     const date = props.done ? props.done : props.estimate
     const dateFormat = moment(date).locale('pt-br').format('dddd[,] D [de] MMMM [de] YYYY')
 
+    const getRightContent = () => {
+        return (
+            <TouchableOpacity style={styles.right}>
+                <Icon name='trash' size={30} color='#FFF' />
+            </TouchableOpacity>
+        )
+    }
+
     return (
-        <View style={styles.container}>
-            <TouchableWithoutFeedback
-                onPress={() => props.toggleTask(props.id)}>
-                <View style={styles.checkContainer}>
-                    {getCheckView(props.done)}
+        <Swipeable renderRightActions={getRightContent}>
+            <View style={styles.container}>
+                <TouchableWithoutFeedback
+                    onPress={() => props.toggleTask(props.id)}>
+                    <View style={styles.checkContainer}>
+                        {getCheckView(props.done)}
+                    </View>
+                </TouchableWithoutFeedback>
+                <View>
+                    <Text style={[isDoneStyle, styles.desc]}>{props.desc}</Text>
+                    <Text style={styles.date}>{dateFormat}</Text>
                 </View>
-            </TouchableWithoutFeedback>
-            <View>
-                <Text style={[isDoneStyle, styles.desc]}>{props.desc}</Text>
-                <Text style={styles.date}>{dateFormat}</Text>
             </View>
-        </View>
+        </Swipeable>
     )
 }
 
@@ -88,5 +104,13 @@ const styles= StyleSheet.create({
 
     date: {
         color: commonStyles.colors.subText,
+    },
+
+    right: {
+        backgroundColor: commonStyles.colors.delete,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
     }
 })
