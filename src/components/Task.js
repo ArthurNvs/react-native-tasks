@@ -21,19 +21,34 @@ export default props => {
     const date = props.done ? props.done : props.estimate
     const dateFormat = moment(date).locale('pt-br').format('dddd[,] D [de] MMMM [de] YYYY')
 
+    const callDelete = () => props.onDelete && props.onDelete(props.id)
+
     const getRightContent = () => {
         return (
-            <TouchableOpacity style={styles.right}>
+            <TouchableOpacity style={styles.right}
+                onPress={callDelete}>
                 <Icon name='trash' size={30} color='#FFF' />
             </TouchableOpacity>
         )
     }
 
+    const getLeftContent = () => {
+        return (
+            <TouchableOpacity style={styles.left}>
+                <Icon name='trash' size={20} color='#FFF' style={styles.excludeIcon} />
+                <Text style={styles.excludeText}>Excluir</Text>
+            </TouchableOpacity>
+        )
+    }
+    
     return (
-        <Swipeable renderRightActions={getRightContent}>
+        <Swipeable 
+            renderRightActions={getRightContent} 
+            renderLeftActions={getLeftContent}
+            onSwipeableLeftOpen={callDelete}>
             <View style={styles.container}>
                 <TouchableWithoutFeedback
-                    onPress={() => props.toggleTask(props.id)}>
+                    onPress={() => props.onToggleTask(props.id)}>
                     <View style={styles.checkContainer}>
                         {getCheckView(props.done)}
                     </View>
@@ -69,6 +84,7 @@ const styles= StyleSheet.create({
         borderBottomWidth: 1,
         alignItems: 'center',
         paddingVertical: 10,
+        backgroundColor: '#FFF',
     },
 
     checkContainer: {
@@ -112,5 +128,22 @@ const styles= StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
+    },
+
+    left: {
+        flex: 1,
+        backgroundColor: commonStyles.colors.delete,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    excludeText: {
+        color: '#FFF',
+        fontSize:20,
+        margin:10,
+    },
+
+    excludeIcon: {
+        marginLeft: 10
     }
 })
