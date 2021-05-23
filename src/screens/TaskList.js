@@ -9,6 +9,7 @@ import {
     Platform, 
     Button,
     Alert } from 'react-native'
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
@@ -21,21 +22,21 @@ import Task from '../components/Task'
 import LinearGradient from 'react-native-linear-gradient'
 import AddTask from './AddTask'
 
+const initialState = {
+    showDoneTasks: true,
+    showModal:  false,
+    visibleTasks: [],
+    tasks: []
+}
 
 export default class TaskList extends Component {
 
-    state = {
-        showDoneTasks: true,
+    state = { ...initialState }
 
-        showAddTask:  true,
-
-        visibleTasks: [],
-
-        tasks: []
-    }
-
-    componentDidMount = () => {
-        this.filterTasks()
+    componentDidMount = async () => {
+        const stateString = await AsyncStorage.getItem('tasks')
+        const state = JSON.parse(stateString) || initialState
+        this.setState(state, this.filterTasks)
     }
 
     toggleFilter = () => {
@@ -52,6 +53,7 @@ export default class TaskList extends Component {
         }
 
         this.setState({ visibleTasks: visibleTasks })
+        AsyncStorage.setItem('tasks', JSON.stringify(this.state))
     }
 
     toggleTask = taskId => {
@@ -80,7 +82,7 @@ export default class TaskList extends Component {
             done: null
         })
 
-        this.setState({ tasks: tasks, showAddTask: false }, this.filterTasks)
+        this.setState({ tasks: tasks, showModal: false }, this.filterTasks)
     }
 
     deleteTask = id => {
@@ -93,8 +95,8 @@ export default class TaskList extends Component {
         return (
             <View style={styles.container}>
                 <AddTask 
-                    isVisible={this.state.showAddTask} 
-                    onCancel={() => this.setState({ showAddTask: false} )}
+                    isVisible={this.state.showModal} 
+                    onCancel={() => this.setState({ showModal: false} )}
                     onSave={this.addTask} />
                     <LinearGradient 
                         colors={[commonStyles.colors.primary, commonStyles.colors.today, commonStyles.colors.primary]}
@@ -123,7 +125,7 @@ export default class TaskList extends Component {
                     <TouchableOpacity 
                         style={styles.addButton}
                         activeOpacity={0.5}
-                        onPress={() => this.setState({ showAddTask:  true })} >
+                        onPress={() => this.setState({ showModal:  true })} >
                         <Icon name='plus' size={20} color={commonStyles.colors.secondary} />
                     </TouchableOpacity>
             </View>
