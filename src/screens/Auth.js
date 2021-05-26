@@ -6,6 +6,7 @@ import {
     TextInput, 
     TouchableOpacity,
     Platform,
+    Alert
 } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import commonStyles from '../commonStyles'
@@ -17,11 +18,15 @@ export default class Auth extends Component {
         email: '',
         password: '',
         confirmPassword: '',
-        stageNew: true,
+        stageNew: false,
     }
 
-    toggleStage() {
-
+    signinOrsignup =  () => {
+        if(this.state.stageNew) {
+            Alert.alert('Cadastrar Usuário', 'Cadastro realizado com sucesso!')
+        } else {
+            Alert.alert('Login', 'Login bem sucedido!')
+        }
     }
 
     render() {
@@ -34,7 +39,7 @@ export default class Auth extends Component {
                 <Text style={styles.title}>myList</Text>
                 <View style={styles.formContainer}>
                     <Text style={styles.subtitle}>
-                        {this.state.stageNew ? 'Cadastrar novo usuário' : 'Informe seus dados'}
+                        {this.state.stageNew ? 'Cadastrar novo usuário' : 'Informe os dados cadastrados'}
                     </Text>
                     {this.state.stageNew &&
                         <TextInput 
@@ -59,9 +64,10 @@ export default class Auth extends Component {
                         placeholder='Confirmar senha' 
                         value={this.state.confirmPassword}
                         style={styles.input}
+                        secureTextEntry={true}
                         onChangeText={confirmPassword => this.setState({ confirmPassword: confirmPassword })} />
                     }
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.signinOrsignup}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>
                                 {this.state.stageNew ? 'Cadastrar' : 'Login'}
@@ -69,6 +75,13 @@ export default class Auth extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity 
+                    style={{padding: 10}}
+                    onPress={ () => this.setState({ stageNew: !this.state.stageNew })}>
+                    <Text style={styles.buttonText}>
+                        {this.state.stageNew ? 'Já possuo um cadastro' : 'Não possui cadastro?'}
+                    </Text>
+                </TouchableOpacity>
             </LinearGradient>
         )
     }
