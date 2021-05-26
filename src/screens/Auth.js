@@ -3,13 +3,12 @@ import {
     Text, 
     StyleSheet, 
     View, 
-    TextInput, 
     TouchableOpacity,
-    Platform,
     Alert
 } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import commonStyles from '../commonStyles'
+import AuthInput from '../components/AuthInput'
 
 export default class Auth extends Component {
 
@@ -42,25 +41,29 @@ export default class Auth extends Component {
                         {this.state.stageNew ? 'Cadastrar novo usuário' : 'Informe os dados cadastrados'}
                     </Text>
                     {this.state.stageNew &&
-                        <TextInput 
+                        <AuthInput
+                        icon='user'
                         placeholder='Nome' 
                         value={this.state.name}
                         style={styles.input}
                         onChangeText={name => this.setState({ name: name })} />
                     }
-                    <TextInput 
+                    <AuthInput
+                        icon='at'
                         placeholder='Email' 
-                        value={this.state.email}
+                        value={this.state.email.toLowerCase()}
                         style={styles.input}
                         onChangeText={email => this.setState({ email: email })} />
-                    <TextInput 
+                    <AuthInput
+                        icon='lock' 
                         placeholder='Senha' 
                         value={this.state.password}
                         style={styles.input}
                         secureTextEntry={true}
                         onChangeText={password => this.setState({ password: password })} />
                     {this.state.stageNew &&
-                        <TextInput 
+                        <AuthInput
+                        icon='asterisk'
                         placeholder='Confirmar senha' 
                         value={this.state.confirmPassword}
                         style={styles.input}
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: 10,
         backgroundColor: '#EBE9FF',
-        padding: Platform.OS == 'ios' ? 13 : 10
+        //padding: Platform.OS == 'ios' ? 13 : 10
     },
     formContainer: {
         borderRadius: 5,
