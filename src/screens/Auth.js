@@ -1,9 +1,29 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { 
+    Text, 
+    StyleSheet, 
+    View, 
+    TextInput, 
+    TouchableOpacity,
+    Platform,
+} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import commonStyles from '../commonStyles'
 
 export default class Auth extends Component {
+
+    state = {
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        stageNew: true,
+    }
+
+    toggleStage() {
+
+    }
+
     render() {
         return (
             <LinearGradient 
@@ -12,6 +32,43 @@ export default class Auth extends Component {
                 end={{ x: 0, y: 0 }}
                 style={styles.background} >
                 <Text style={styles.title}>myList</Text>
+                <View style={styles.formContainer}>
+                    <Text style={styles.subtitle}>
+                        {this.state.stageNew ? 'Cadastrar novo usuário' : 'Informe seus dados'}
+                    </Text>
+                    {this.state.stageNew &&
+                        <TextInput 
+                        placeholder='Nome' 
+                        value={this.state.name}
+                        style={styles.input}
+                        onChangeText={name => this.setState({ name: name })} />
+                    }
+                    <TextInput 
+                        placeholder='Email' 
+                        value={this.state.email}
+                        style={styles.input}
+                        onChangeText={email => this.setState({ email: email })} />
+                    <TextInput 
+                        placeholder='Senha' 
+                        value={this.state.password}
+                        style={styles.input}
+                        secureTextEntry={true}
+                        onChangeText={password => this.setState({ password: password })} />
+                    {this.state.stageNew &&
+                        <TextInput 
+                        placeholder='Confirmar senha' 
+                        value={this.state.confirmPassword}
+                        style={styles.input}
+                        onChangeText={confirmPassword => this.setState({ confirmPassword: confirmPassword })} />
+                    }
+                    <TouchableOpacity>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>
+                                {this.state.stageNew ? 'Cadastrar' : 'Login'}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </LinearGradient>
         )
     }
@@ -24,11 +81,41 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-
     title: {
         color: commonStyles.colors.secondary,
-        fontSize: 65,
+        fontSize: 60,
         marginBottom:  10,
-        fontFamily: 'Futura'
+        fontFamily: commonStyles.fontFamily,
+    },
+    subtitle: {
+        fontFamily: commonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    input: {
+        borderRadius: 5,
+        marginTop: 10,
+        backgroundColor: '#EBE9FF',
+        padding: Platform.OS == 'ios' ? 13 : 10
+    },
+    formContainer: {
+        borderRadius: 5,
+        backgroundColor: '#rgba(106, 90, 205, 0.1)',
+        padding: 20,
+        width: '90%'
+    },
+    button:{
+        backgroundColor: '#50B441',
+        marginTop: 10,
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 5,
+    },
+    buttonText:{
+        fontFamily: commonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 14
     }
 })

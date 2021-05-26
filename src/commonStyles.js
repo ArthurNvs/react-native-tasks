@@ -1,5 +1,5 @@
 export default {
-    fontFamily: 'Lato',
+    fontFamily: 'Futura',
     colors: {
         today: '#00ccff',
         primary: '#28F1E5',
