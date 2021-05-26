@@ -99,9 +99,9 @@ export default class TaskList extends Component {
                     onCancel={() => this.setState({ showModal: false} )}
                     onSave={this.addTask} />
                     <LinearGradient 
-                        colors={[commonStyles.colors.primary, commonStyles.colors.today, commonStyles.colors.primary]}
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1, y: 0 }}
+                        colors={[commonStyles.colors.today, commonStyles.colors.mainA, commonStyles.colors.mainB]}
+                        start={{ x: 1, y: 1 }}
+                        end={{ x: 0, y: 0 }}
                         style={styles.background}>
                         <View style={styles.iconBar}>
                             <TouchableOpacity onPress={this.toggleFilter}>

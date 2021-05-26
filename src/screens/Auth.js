@@ -31,11 +31,11 @@ export default class Auth extends Component {
     render() {
         return (
             <LinearGradient 
-                colors={['#7663FF', '#E0AEF7', '#B2D8FF']}
+                colors={[commonStyles.colors.mainA, commonStyles.colors.mainB, '#B2D8FF']}
                 start={{ x: 1, y: 1 }}
                 end={{ x: 0, y: 0 }}
                 style={styles.background} >
-                <Text style={styles.title}>myList</Text>
+                <Text style={styles.title}>iList</Text>
                 <View style={styles.formContainer}>
                     <Text style={styles.subtitle}>
                         {this.state.stageNew ? 'Cadastrar novo usuário' : 'Informe os dados cadastrados'}

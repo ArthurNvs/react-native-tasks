@@ -7,5 +7,7 @@ export default {
         mainText: '#222',
         subText: '#555',
         delete: '#ff4d4d',
+        mainA: '#7663FF',
+        mainB: '#E0AEF7',
     }
 }
