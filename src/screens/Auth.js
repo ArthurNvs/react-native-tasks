@@ -12,15 +12,17 @@ import commonStyles from '../commonStyles'
 import AuthInput from '../components/AuthInput'
 import { server, showError, showSuccess } from '../common'
 
+const initialState = {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    stageNew: false,
+}
+
 export default class Auth extends Component {
 
-    state = {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        stageNew: false,
-    }
+    state = { ...initialState }
 
     signinOrsignup =  () => {
         if(this.state.stageNew) {
@@ -40,10 +42,14 @@ export default class Auth extends Component {
             })
 
             showSuccess('Usuário cadastrado!')
-            this.setState({ stageNew: false })
+            this.setState({ ...initialState })
         } catch(e) {
             showError(e)
         }
+    }
+
+    signin = () => {
+
     }
 
     render() {
