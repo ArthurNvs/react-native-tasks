@@ -6,9 +6,11 @@ import {
     TouchableOpacity,
     Alert
 } from 'react-native'
+import axios from 'axios'
 import LinearGradient from 'react-native-linear-gradient'
 import commonStyles from '../commonStyles'
 import AuthInput from '../components/AuthInput'
+import { server, showError, showSuccess } from '../common'
 
 export default class Auth extends Component {
 
@@ -22,9 +24,25 @@ export default class Auth extends Component {
 
     signinOrsignup =  () => {
         if(this.state.stageNew) {
-            Alert.alert('Cadastrar Usuário', 'Cadastro realizado com sucesso!')
+            this.signup()
         } else {
             Alert.alert('Login', 'Login bem sucedido!')
+        }
+    }
+
+    signup = async () => {
+        try{
+            await axios.post(`${server}/signup`, {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password,
+                confirmPassword: this.state.confirmPassword,
+            })
+
+            showSuccess('Usuário cadastrado!')
+            this.setState({ stageNew: false })
+        } catch(e) {
+            showError(e)
         }
     }
 

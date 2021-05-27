@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 21,
         fontWeight: 'bold',
-        backgroundColor: commonStyles.colors.today,
+        backgroundColor: '#737373',
         color: commonStyles.colors.secondary,
         textAlign: 'center',
         padding: 15
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         margin: 20,
         marginRight: 30,
         fontSize: 17,
-        color: commonStyles.colors.today,
+        color: '#737373',
     },
     date: {
         fontSize: 20,
