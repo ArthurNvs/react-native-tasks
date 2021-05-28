@@ -28,7 +28,7 @@ export default class Auth extends Component {
         if(this.state.stageNew) {
             this.signup()
         } else {
-            Alert.alert('Login', 'Login bem sucedido!')
+            this.signin()
         }
     }
 
@@ -48,11 +48,34 @@ export default class Auth extends Component {
         }
     }
 
-    signin = () => {
+    signin = async () => {
+        try{
+            const res = await axios.post(`${server}/signin`, 
+            {
+                email: this.state.email,
+                password: this.state.password,
+            })
 
+            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
+            this.props.navigation.navigate('Home')
+        } catch(e) {
+            showError(e)
+        }
     }
 
     render() {
+        const validations = []
+        validations.push(this.state.email && this.state.email.includes('@'))
+        validations.push(this.state.password && this.state.password.length >= 3)
+
+        if(this.state.stageNew) {
+            validations.push(this.state.name && this.state.name.trim().length >= 2)
+            validations.push(this.state.password === this.state.confirmPassword)
+        }
+
+        //checa se todos os campos são válidos através das diretrizes acima
+        const validForm = validations.reduce((t, a) => t && a)
+
         return (
             <LinearGradient 
                 colors={[commonStyles.colors.mainA, commonStyles.colors.mainB, '#B2D8FF']}
@@ -94,8 +117,8 @@ export default class Auth extends Component {
                         secureTextEntry={true}
                         onChangeText={confirmPassword => this.setState({ confirmPassword: confirmPassword })} />
                     }
-                    <TouchableOpacity onPress={this.signinOrsignup}>
-                        <View style={styles.button}>
+                    <TouchableOpacity onPress={this.signinOrsignup} disabled={!validForm}>
+                        <View style={[styles.button, validForm ? {} : { backgroundColor: commonStyles.colors.mainA}]}>
                             <Text style={styles.buttonText}>
                                 {this.state.stageNew ? 'Cadastrar' : 'Login'}
                             </Text>
