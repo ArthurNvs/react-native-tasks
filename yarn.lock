@@ -883,11 +883,6 @@
   dependencies:
     "deep-assign" "^3.0.0"
 
-"@react-native-community/async-storage@1.7.1":
-  "integrity" "sha512-/oX/x+EU4xNaqIaC/epVKzO8XghzImPA7l8cLz3USEFmtFiXFjBbTeeIFjjEm/u4/cv38Wi1xMEa10PHIWygRg=="
-  "resolved" "https://registry.npmjs.org/@react-native-community/async-storage/-/async-storage-1.7.1.tgz"
-  "version" "1.7.1"
-
 "@react-native-community/cli-debugger-ui@^3.0.0":
   "integrity" "sha512-m3X+iWLsK/H7/b7PpbNO33eQayR/+M26la4ZbYe1KRke5Umg4PIWsvg21O8Tw4uJcY8LA5hsP+rBi/syBkBf0g=="
   "resolved" "https://registry.npmjs.org/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-3.0.0.tgz"
@@ -5673,7 +5668,7 @@
     "react-is" "^16.9.0"
     "scheduler" "^0.15.0"
 
-"react@*", "react@^16.0.0", "react@^16.8", "react@>=16.8", "react@~16", "react@16.9.0":
+"react@*", "react@^16.0.0", "react@>=16.8", "react@~16", "react@16.9.0":
   "integrity" "sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.9.0.tgz"
   "version" "16.9.0"
