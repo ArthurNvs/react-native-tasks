@@ -14,8 +14,8 @@ import { server, showError, showSuccess } from '../common'
 
 const initialState = {
     name: '',
-    email: '',
-    password: '',
+    email: 'cs@med.com',
+    password: '123',
     confirmPassword: '',
     stageNew: false,
 }
