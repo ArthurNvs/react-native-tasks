@@ -113,6 +113,16 @@ export default class TaskList extends Component {
         }
     }
 
+    setDayColor = () => {
+        switch (this.props.daysAhead) {
+            case 0: return commonStyles.colors.today
+            case 1: return commonStyles.colors.tomorrow
+            case 7: return commonStyles.colors.week
+            case 30: return commonStyles.colors.month
+            default: return commonStyles.colors.month
+        }
+    }
+
     render() {
         const today = moment().locale('pt-br').format('dddd, D [de] MMMM')
         return (
@@ -122,7 +132,7 @@ export default class TaskList extends Component {
                     onCancel={() => this.setState({ showModal: false} )}
                     onSave={this.addTask} />
                     <LinearGradient 
-                        colors={[commonStyles.colors.today, commonStyles.colors.mainA, commonStyles.colors.mainB]}
+                        colors={[this.setDayColor(), commonStyles.colors.mainA, commonStyles.colors.mainB]}
                         start={{ x: 1, y: 1 }}
                         end={{ x: 0, y: 0 }}
                         style={styles.background}>
@@ -152,7 +162,7 @@ export default class TaskList extends Component {
                         renderItem={({ item }) => <Task {...item} onToggleTask={this.toggleTask} onDelete={this.deleteTask} />} />
                     </View>
                     <TouchableOpacity 
-                        style={styles.addButton}
+                        style={[styles.addButton, {backgroundColor: this.setDayColor()}]}
                         activeOpacity={0.5}
                         onPress={() => this.setState({ showModal:  true })} >
                         <Icon name='plus' size={20} color={commonStyles.colors.secondary} />
@@ -210,7 +220,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        backgroundColor: commonStyles.colors.today,
         justifyContent: 'center',
         alignItems: 'center'
     }
